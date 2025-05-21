@@ -27,7 +27,7 @@ export const userRegister = async (req, res) => {
       fullname,
       username,
       password: hashedPassword,
-      role: role || "user", // Fallback to 'user'
+      role: role || "user",
     });
 
     await newUser.save();
@@ -64,12 +64,11 @@ export const userLogin = async (req, res) => {
         .json({ status: false, message: "Invalid username or password" });
     }
 
-    // Include role in JWT
     const token = jwt.sign(
       {
         userId: user._id,
         username: user.username,
-        role: user.role, // 👈 include role
+        role: user.role,
       },
       process.env.MY_KEY,
       { expiresIn: "2h" }
